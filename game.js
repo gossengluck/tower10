@@ -1507,43 +1507,45 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (inputHandler) inputHandler.update();
     }
 
-    ctx.fillStyle='#0f3460'; ctx.fillRect(0,0,canvas.width,canvas.height);
+    ctx.fillStyle='#080c1a'; ctx.fillRect(0,0,canvas.width,canvas.height);
 
     if (camera) {
       camera.applyTransform(ctx);
     }
 
-    // Grid zeichnen
-    ctx.strokeStyle='#1a4a7a'; ctx.lineWidth=1;
+    // Grid zeichnen — subtile Linien
+    ctx.strokeStyle='rgba(0, 240, 255, 0.04)'; ctx.lineWidth=1;
     for(let x=0;x<=GRID_WIDTH;x++){ ctx.beginPath(); ctx.moveTo(x*GRID_SIZE,0); ctx.lineTo(x*GRID_SIZE,WORLD_HEIGHT); ctx.stroke(); }
     for(let y=0;y<=GRID_HEIGHT;y++){ ctx.beginPath(); ctx.moveTo(0,y*GRID_SIZE); ctx.lineTo(WORLD_WIDTH,y*GRID_SIZE); ctx.stroke(); }
 
     // ===== TRENNLINIE IN DER MITTE =====
     const midX = gameState.halfWidth * GRID_SIZE;
     ctx.save();
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
-    ctx.lineWidth = 4;
-    ctx.setLineDash([20, 10]);
+    // Glow-Effekt
+    ctx.shadowBlur = 15;
+    ctx.shadowColor = 'rgba(168, 85, 247, 0.6)';
+    ctx.strokeStyle = 'rgba(168, 85, 247, 0.5)';
+    ctx.lineWidth = 2;
+    ctx.setLineDash([15, 8]);
     ctx.beginPath();
     ctx.moveTo(midX, 0);
     ctx.lineTo(midX, WORLD_HEIGHT);
     ctx.stroke();
     ctx.setLineDash([]);
+    ctx.shadowBlur = 0;
     ctx.restore();
 
     // Build-Zonen einfärben
     ctx.save();
     if (gameState.playerSide === 'left') {
-      // Eigene Zone links = leicht blau
-      ctx.fillStyle = 'rgba(74, 158, 255, 0.03)';
+      ctx.fillStyle = 'rgba(0, 240, 255, 0.02)';
       ctx.fillRect(0, 0, midX, WORLD_HEIGHT);
-      // Gegner-Zone rechts = leicht rot
-      ctx.fillStyle = 'rgba(233, 69, 96, 0.03)';
+      ctx.fillStyle = 'rgba(255, 45, 117, 0.02)';
       ctx.fillRect(midX, 0, WORLD_WIDTH - midX, WORLD_HEIGHT);
     } else {
-      ctx.fillStyle = 'rgba(233, 69, 96, 0.03)';
+      ctx.fillStyle = 'rgba(255, 45, 117, 0.02)';
       ctx.fillRect(0, 0, midX, WORLD_HEIGHT);
-      ctx.fillStyle = 'rgba(74, 158, 255, 0.03)';
+      ctx.fillStyle = 'rgba(0, 240, 255, 0.02)';
       ctx.fillRect(midX, 0, WORLD_WIDTH - midX, WORLD_HEIGHT);
     }
     ctx.restore();
@@ -1562,10 +1564,10 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
     }
 
-    // Linker Pfad
-    drawPathLine(pathLeft, '#8b4513', '#0f0', '#f00');
-    // Rechter Pfad
-    drawPathLine(pathRight, '#5c3317', '#f00', '#0f0');
+    // Linker Pfad — Cyan-Ton
+    drawPathLine(pathLeft, 'rgba(0, 240, 255, 0.18)', 'rgba(0, 255, 136, 0.6)', 'rgba(255, 45, 117, 0.6)');
+    // Rechter Pfad — Pink-Ton
+    drawPathLine(pathRight, 'rgba(255, 45, 117, 0.18)', 'rgba(255, 45, 117, 0.6)', 'rgba(0, 255, 136, 0.6)');
 
     // Spawns
     if(!gameState.paused){

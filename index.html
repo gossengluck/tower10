@@ -2,42 +2,59 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Tower Defense - 2 Spieler</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <title>Tower Defense - 1v1</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
 <!-- =================== LOBBY SCREEN =================== -->
 <div id="lobbyScreen">
+  <!-- Animated background -->
+  <div class="lobby-bg">
+    <div class="lobby-grid-lines"></div>
+    <div class="lobby-glow glow-1"></div>
+    <div class="lobby-glow glow-2"></div>
+    <div class="lobby-glow glow-3"></div>
+  </div>
+
   <div class="lobby-container">
-    <h1 class="lobby-title">Tower Defense</h1>
-    <h2 class="lobby-subtitle">2 Spieler Modus</h2>
+    <div class="lobby-logo">
+      <div class="lobby-title">TOWER<span>CLASH</span></div>
+      <div class="lobby-vs">1 <span class="vs-x">VS</span> 1</div>
+    </div>
 
     <div class="lobby-form">
       <div class="input-group">
-        <label for="playerNameInput">Dein Name</label>
-        <input type="text" id="playerNameInput" placeholder="Name eingeben..." maxlength="15" autofocus>
+        <div class="input-icon">&#9876;</div>
+        <input type="text" id="playerNameInput" placeholder="Dein Name..." maxlength="15" autofocus>
       </div>
 
       <div class="input-group">
-        <label for="lobbyNameInput">Lobby Name</label>
+        <div class="input-icon">&#9733;</div>
         <input type="text" id="lobbyNameInput" placeholder="Lobby Name..." maxlength="20">
       </div>
 
       <div class="lobby-buttons">
         <button class="lobby-btn create" id="createLobbyBtn">
+          <span class="btn-glow"></span>
           <span class="lobby-btn-icon">+</span>
-          Lobby erstellen
+          <span class="lobby-btn-label">Lobby erstellen</span>
         </button>
         <button class="lobby-btn join" id="joinLobbyBtn">
-          <span class="lobby-btn-icon">→</span>
-          Lobby beitreten
+          <span class="btn-glow"></span>
+          <span class="lobby-btn-icon">&#10132;</span>
+          <span class="lobby-btn-label">Beitreten</span>
         </button>
       </div>
 
       <div id="lobbyStatus" class="lobby-status"></div>
+    </div>
 
+    <div class="lobby-footer">
+      Tower Defense Multiplayer
     </div>
   </div>
 </div>
@@ -59,28 +76,31 @@
 
     <!-- Camera Controls Info -->
     <div id="cameraInfo">
-      <div class="info-line">🖱️ <strong>Rechtsklick + Ziehen</strong>: Karte bewegen</div>
-      <div class="info-line">🔍 <strong>Mausrad</strong>: Zoom</div>
-      <div class="info-line">⌨️ <strong>WASD</strong>: Kamera bewegen</div>
-      <div class="info-line">⌨️ <strong>Leertaste</strong>: Zoom zurücksetzen</div>
+      <div class="info-line">&#128433;&#65039; <strong>Rechtsklick + Ziehen</strong>: Karte bewegen</div>
+      <div class="info-line">&#128269; <strong>Mausrad</strong>: Zoom</div>
+      <div class="info-line">&#9000;&#65039; <strong>WASD</strong>: Kamera bewegen</div>
+      <div class="info-line">&#9000;&#65039; <strong>Leertaste</strong>: Zoom Reset</div>
     </div>
   </div>
+
+  <!-- Sidebar Toggle (Mobile) -->
+  <button id="sidebarToggle" class="sidebar-toggle">&#9776;</button>
 
   <div id="sidebar">
     <div class="sidebar-header">
       <span id="roundDisplay" class="round-badge">Runde 0</span>
-      <button class="text-link-btn" id="newGameBtn" title="Zurück zur Lobby">↻ Lobby</button>
+      <button class="text-link-btn" id="newGameBtn" title="Zurueck zur Lobby">&#8635; Lobby</button>
     </div>
 
     <!-- Opponent Info -->
     <div class="opponent-info" id="opponentInfo">
       <div class="opponent-header">
-        <span class="opponent-icon">⚔️</span>
+        <span class="opponent-icon">&#9876;&#65039;</span>
         <span class="opponent-name" id="opponentNameDisplay">Gegner</span>
       </div>
       <div class="opponent-stats">
         <div class="opponent-stat">
-          <span>❤️</span>
+          <span>&#10084;&#65039;</span>
           <span id="opponentLives">20</span>
         </div>
       </div>
@@ -89,77 +109,78 @@
     <!-- Top Bar -->
     <div class="top-bar">
       <div class="top-stat">
-        <div class="top-stat-icon">❤️</div>
+        <div class="top-stat-icon">&#10084;&#65039;</div>
         <div class="top-stat-value" id="lives">20</div>
+        <div class="top-stat-label">Leben</div>
       </div>
       <div class="top-stat gold">
-        <div class="top-stat-icon">💰</div>
+        <div class="top-stat-icon">&#128176;</div>
         <div class="top-stat-value" id="gold">500</div>
+        <div class="top-stat-label">Gold</div>
       </div>
       <div class="top-stat">
-        <div class="top-stat-icon">🌊</div>
+        <div class="top-stat-icon">&#127754;</div>
         <div class="top-stat-value" id="wave">0</div>
+        <div class="top-stat-label">Welle</div>
       </div>
     </div>
 
     <!-- Score -->
     <div class="score-display">
-      <div class="score-label">Punkte</div>
+      <div class="score-label">PUNKTE</div>
       <div class="score-value" id="score">0</div>
     </div>
 
     <!-- Controls -->
     <div class="control-grid">
       <button class="control-btn speed" id="rewindBtn">
-        <span class="btn-icon">⏪</span>
-        <span class="btn-text speed-text">1×</span>
+        <span class="btn-icon">&#9194;</span>
+        <span class="btn-text speed-text">1x</span>
       </button>
       <button class="control-btn speed" id="ffBtn">
-        <span class="btn-icon">⏩</span>
-        <span class="btn-text speed-text">1×</span>
+        <span class="btn-icon">&#9193;</span>
+        <span class="btn-text speed-text">1x</span>
       </button>
       <button class="control-btn pause" id="pauseBtn">
-        <span class="btn-icon">⏸</span>
+        <span class="btn-icon">&#9208;</span>
         <span class="btn-text">Pause</span>
       </button>
     </div>
 
-    <!-- ========= EINHEITEN SHOP (NEU) ========= -->
+    <!-- ========= EINHEITEN SHOP ========= -->
     <div class="unit-shop" id="unitShop">
       <div class="shop-header">
-        <span class="shop-icon">⚔️</span>
+        <span class="shop-icon">&#9876;&#65039;</span>
         <span class="shop-title">Einheiten senden</span>
       </div>
       <div class="shop-queue" id="attackQueue">
-        <div class="queue-empty">Keine Einheiten gewählt</div>
+        <div class="queue-empty">Keine Einheiten</div>
       </div>
-      <div class="shop-grid" id="unitGrid">
-        <!-- Wird dynamisch gefüllt -->
-      </div>
+      <div class="shop-grid" id="unitGrid"></div>
       <div class="shop-total">
-        <span>Kosten: </span>
-        <span id="attackCost" class="attack-cost-value">0 💰</span>
+        <span>Kosten:</span>
+        <span id="attackCost" class="attack-cost-value">0 &#128176;</span>
       </div>
       <button class="send-attack-btn" id="sendAttackBtn" disabled>
-        <span>🚀 Angriff senden</span>
+        <span>&#128640; Angriff senden</span>
       </button>
     </div>
 
-    <!-- Nächste Runde Button (ersetzt Welle starten) -->
-    <button class="wave-start-btn" id="startWaveBtn" aria-label="Nächste Runde">
+    <!-- Naechste Runde Button -->
+    <button class="wave-start-btn" id="startWaveBtn" aria-label="Naechste Runde">
       <div class="wave-btn-content">
-        <span class="wave-btn-icon">▶</span>
-        <span class="wave-btn-text">Nächste Runde</span>
+        <span class="wave-btn-icon">&#9654;</span>
+        <span class="wave-btn-text">Naechste Runde</span>
         <span class="wave-hotkey">R</span>
       </div>
     </button>
 
     <div id="readyStatus" class="ready-status">
-      <span id="myReadyStatus" class="ready-dot">●</span> Du
-      <span id="opponentReadyStatus" class="ready-dot">●</span> Gegner
+      <span id="myReadyStatus" class="ready-dot">&#9679;</span> Du
+      <span id="opponentReadyStatus" class="ready-dot">&#9679;</span> Gegner
     </div>
 
-    <!-- Vorschau nächste Welle -->
+    <!-- Vorschau naechste Welle -->
     <div class="wave-preview" id="waveInfo">Bereit zum Spielen</div>
 
     <!-- Tower Info -->
@@ -170,20 +191,20 @@
           <div class="info-name" id="infoName">Turm</div>
           <div class="info-level" id="infoLevel">Level 1</div>
         </div>
-        <button class="close-info" id="closeInfo">×</button>
+        <button class="close-info" id="closeInfo">&#215;</button>
       </div>
       <div class="info-stats" id="infoStats"></div>
       <div class="info-buttons">
-        <button class="upgrade-btn" id="upgradeBtn">⬆ Upgrade</button>
-        <button class="sell-btn" id="sellBtn">💰 Verkaufen</button>
+        <button class="upgrade-btn" id="upgradeBtn">&#11014; Upgrade</button>
+        <button class="sell-btn" id="sellBtn">&#128176; Verkaufen</button>
       </div>
     </div>
 
     <!-- Build -->
     <div class="build-section">
       <div class="build-header">
-        <span class="build-icon">🔨</span>
-        <span class="build-title">Türme bauen</span>
+        <span class="build-icon">&#128296;</span>
+        <span class="build-title">Tuerme bauen</span>
       </div>
       <div class="tower-grid" id="towerGrid"></div>
     </div>
@@ -193,14 +214,14 @@
 <script type="module" src="game.js"></script>
 
 <script>
-  const startBtn = document.getElementById('startWaveBtn');
-  if (startBtn && !startBtn.querySelector('.wave-btn-content')) {
-    startBtn.innerHTML =
-      '<div class="wave-btn-content">' +
-        '<span class="wave-btn-icon">▶</span>' +
-        '<span class="wave-btn-text">Nächste Runde</span>' +
-        '<span class="wave-hotkey">R</span>' +
-      '</div>';
+  // Sidebar toggle for mobile
+  const toggle = document.getElementById('sidebarToggle');
+  const sidebar = document.getElementById('sidebar');
+  if (toggle) {
+    toggle.addEventListener('click', () => {
+      sidebar.classList.toggle('open');
+      toggle.classList.toggle('active');
+    });
   }
 </script>
 </body>
