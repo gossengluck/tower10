@@ -1721,8 +1721,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   document.getElementById('createLobbyBtn').addEventListener('click', async () => {
     const playerName = document.getElementById('playerNameInput').value.trim();
     const lobbyName = document.getElementById('lobbyNameInput').value.trim();
-    const serverUrl = `${window.location.protocol === 'https:' ? 'wss:' : 'ws:'}//${window.location.host}`;
-
     if (!playerName || !lobbyName) {
       const status = document.getElementById('lobbyStatus');
       status.textContent = 'Bitte Name und Lobby Name eingeben!';
@@ -1730,20 +1728,12 @@ document.addEventListener('DOMContentLoaded', async () => {
       return;
     }
 
-    try {
-      await mp.connect(serverUrl);
-      mp.createLobby(lobbyName, playerName);
-    } catch (e) {
-      const status = document.getElementById('lobbyStatus');
-      status.textContent = 'Verbindung zum Server fehlgeschlagen! Ist der Server gestartet?';
-      status.className = 'lobby-status error';
-    }
+    mp.createLobby(lobbyName, playerName);
   });
 
   document.getElementById('joinLobbyBtn').addEventListener('click', async () => {
     const playerName = document.getElementById('playerNameInput').value.trim();
     const lobbyName = document.getElementById('lobbyNameInput').value.trim();
-    const serverUrl = `${window.location.protocol === 'https:' ? 'wss:' : 'ws:'}//${window.location.host}`;
 
     if (!playerName || !lobbyName) {
       const status = document.getElementById('lobbyStatus');
@@ -1752,13 +1742,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       return;
     }
 
-    try {
-      await mp.connect(serverUrl);
-      mp.joinLobby(lobbyName, playerName);
-    } catch (e) {
-      const status = document.getElementById('lobbyStatus');
-      status.textContent = 'Verbindung zum Server fehlgeschlagen!';
-      status.className = 'lobby-status error';
-    }
+    mp.joinLobby(lobbyName, playerName);
   });
 });
