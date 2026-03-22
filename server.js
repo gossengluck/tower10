@@ -7,7 +7,7 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 
-const PORT = parseInt(process.argv[2]) || 3000;
+const PORT = parseInt(process.env.APP_PORT) || parseInt(process.argv[2]) || 3000;
 
 // Simple HTTP server to serve game files
 const server = http.createServer((req, res) => {
